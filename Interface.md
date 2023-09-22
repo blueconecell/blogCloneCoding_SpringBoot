@@ -54,7 +54,12 @@ Http Status - 400 (Bad Request)
 code : "EE",
 message : "Existed Email",
 ```
-
+- 데이터베이스 에러
+Http Status - 401 (Internal Server Error)
+```
+code : "DE",
+message : "Database Error.",
+```
 
 
 
