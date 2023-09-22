@@ -54,3 +54,20 @@ https://code.visualstudio.com/docs/java/java-tutorial 에서 운영체제에 맞
 
 설치 후, 추가적인 Extension을 설치한다.
 - ES7+ React/Redux/React-Native snippets
+
+## 1. 기능 설계 [a]
+
+<details>
+<summary>
+유튜브 링크
+</summary>
+
+https://www.youtube.com/watch?v=bOAV4GeGYHg
+
+</details>
+
+**설계할 것들 적어보기**
+
+메모장을 하나 열어서 설계할 것들을 미리 적어본다.
+
+[인터페이스 설계](./Interface.md)
