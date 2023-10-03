@@ -88,3 +88,20 @@ https://www.youtube.com/watch?v=bOAV4GeGYHg
 이어서 설계할 것들을 미리 적어본다.
 
 [인터페이스 설계](./Interface.md)
+
+## 3. 기능 설계 [c]
+
+<details>
+<summary>
+유튜브 링크
+</summary>
+
+https://www.youtube.com/watch?v=kuqPBjZgsus&t=21s
+
+</details>
+
+**설계할 것들 적어보기**
+
+이어서 설계할 것들을 미리 적어본다.
+
+[인터페이스 설계](./Interface.md)

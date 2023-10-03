@@ -1,11 +1,16 @@
+# REST API 명세서
+# 🖐️ Auth
 ## signIn (로그인)
-### <span style="background-color:#fff5b1"> request</span>
+
+### URL
+### Header
+### request
 ```
 *email : string,
 *password : string,
 //앞에 *는 필수라는 뜻
 ```
-### <span style="background-color:#DCFFE4"> response </span>
+### response
 **성공**
 Http Status - 200 (OK)
 ```
@@ -31,7 +36,10 @@ message : "Database Error,"
 ```
 ---
 ## signUp (회원가입)
-### <span style="background-color:#fff5b1"> request</span>
+
+### URL
+### Header
+### request
 ```
 *email : string,
 *password : string,
@@ -40,7 +48,7 @@ message : "Database Error,"
 *address : string,
 addressDetail : string,
 ```
-### <span style="background-color:#DCFFE4"> response </span>
+### response
 **성공**
 Http Status - 200 (OK)
 ```
@@ -63,9 +71,53 @@ code : "DE",
 message : "Database Error.",
 ```
 ---
+# 📋 Board
+## currentList (최신 게시물 리스트)
+
+### URL
+### Header
+### request
+### response
+**성공**
+Http Status - 200 (OK)
+```
+code : "SU", 
+message : "Success.",
+currentList : boardListItem[],
+```
+
+boardListItem
+```
+boardNumber : int,
+title : string,
+content : string,
+boardTitleImg : string,
+favoriteCount : int,
+commentCount : int,
+viewCount : int,
+writeDatetime : string,
+writerNickName : string,
+writerProfileImg : string,
+
+
+```
+
+**실패**
+- 데이터베이스 에러
+Http Status - 500 (internal Server Error)
+```
+code : "DE",
+message : "Database Error.",
+```
+
+---
 ## weeklyTop3List (주간 3위 게시물)
 
-### <span style="background-color:#DCFFE4"> response </span>
+
+### URL
+### Header
+### request
+### response
 **성공**
 Http Status - 200 (OK)
 ```
@@ -100,14 +152,62 @@ message : "Database Error.",
 
 
 ---
-## currentList (최신 게시물 리스트)
-### <span style="background-color:#DCFFE4"> response </span>
+## searchList (검색 게시물 리스트
+
+)
+
+
+### URL
+### Header
+### request
+### response
 **성공**
 Http Status - 200 (OK)
 ```
 code : "SU", 
 message : "Success.",
-currentList : boardListItem[],
+searchList : boardListItem[],
+```
+
+boardListItem
+```
+boardNumber : int,
+title : string,
+content : string,
+boardTitleImg : string,
+favoriteCount : int,
+commentCount : int,
+viewCount : int,
+writeDatetime : string,
+writerNickName : string,
+writerProfileImg : string,
+
+
+```
+
+**실패**
+- 데이터베이스 에러
+Http Status - 500 (internal Server Error)
+```
+code : "DE",
+message : "Database Error.",
+```
+
+
+---
+## userBoardList (특정 유저 게시물 리스트)
+
+
+### URL
+### Header
+### request
+### response
+**성공**
+Http Status - 200 (OK)
+```
+code : "SU", 
+message : "Success.",
+searchList : boardListItem[],
 ```
 
 boardListItem
@@ -135,8 +235,64 @@ message : "Database Error.",
 ```
 
 ---
+## boardDetail (게시물 상세)
+
+### URL
+### Header
+### request
+### response
+
+## favoriteList (좋아요 리스트)
+
+### URL
+### Header
+### request
+### response
+## commentList (댓글 리스트)
+
+### URL
+### Header
+### request
+### response
+## boardWrite (게시물 쓰기)
+
+### URL
+### Header
+### request
+### response
+## postComment (댓글 쓰기)
+
+### URL
+### Header
+### request
+### response
+## boardUpdate (게시물 수정)
+
+### URL
+### Header
+### request
+### response
+## favorite (좋아요 기능)
+
+### URL
+### Header
+### request
+### response
+## boardDelete (게시물 삭제)
+
+### URL
+### Header
+### request
+### response
+
+# 🔍Search
 ## popularWordList (인기 검색어 리스트)
-### <span style="background-color:#DCFFE4"> response </span>
+
+
+### URL
+### Header
+### request
+### response
 **성공**
 Http Status - 200 (OK)
 ```
@@ -154,44 +310,13 @@ message : "Database Error.",
 ```
 
 ---
-## searchList (검색 게시물 리스트)
-### <span style="background-color:#DCFFE4"> response </span>
-**성공**
-Http Status - 200 (OK)
-```
-code : "SU", 
-message : "Success.",
-searchList : boardListItem[],
-```
-
-boardListItem
-```
-boardNumber : int,
-title : string,
-content : string,
-boardTitleImg : string,
-favoriteCount : int,
-commentCount : int,
-viewCount : int,
-writeDatetime : string,
-writerNickName : string,
-writerProfileImg : string,
-
-
-```
-
-**실패**
-- 데이터베이스 에러
-Http Status - 500 (internal Server Error)
-```
-code : "DE",
-message : "Database Error.",
-```
-
-
----
 ## relativeWordList (관련 검색어 리스트)
-### <span style="background-color:#DCFFE4"> response </span>
+
+
+### URL
+### Header
+### request
+### response
 **성공**
 Http Status - 200 (OK)
 ```
@@ -209,49 +334,35 @@ message : "Database Error.",
 ```
 
 ---
-## boardDetail (게시물 상세)
-## favoriteList (좋아요 리스트)
-## favorite (좋아요 기능)
-## commentList (댓글 리스트)
-## postComment (댓글 쓰기)
-## boardDelete (게시물 삭제)
-## boardWrite (게시물 쓰기)
-## boardUpdate (게시물 수정)
+
+# 👤 User
+
 ## getUser (유저정보)
-## userBoardList (특정 유저 게시물 리스트)
-### <span style="background-color:#DCFFE4"> response </span>
-**성공**
-Http Status - 200 (OK)
-```
-code : "SU", 
-message : "Success.",
-searchList : boardListItem[],
-```
 
-boardListItem
-```
-boardNumber : int,
-title : string,
-content : string,
-boardTitleImg : string,
-favoriteCount : int,
-commentCount : int,
-viewCount : int,
-writeDatetime : string,
-writerNickName : string,
-writerProfileImg : string,
-
-
-```
-
-**실패**
-- 데이터베이스 에러
-Http Status - 500 (internal Server Error)
-```
-code : "DE",
-message : "Database Error.",
-```
+### URL
+### Header
+### request
+### response
 
 ---
-## fileUpload (파일 업로드)
-## getFile (파일 불러오기)
+## (로그인 유저 정보)
+
+### URL
+### Header
+### request
+### response
+---
+## (닉네임 수정)
+
+### URL
+### Header
+### request
+### response
+
+---
+## (프로필 이미지 수정)
+
+### URL
+### Header
+### request
+### response
