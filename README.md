@@ -55,7 +55,7 @@ https://code.visualstudio.com/docs/java/java-tutorial 에서 운영체제에 맞
 설치 후, 추가적인 Extension을 설치한다.
 - ES7+ React/Redux/React-Native snippets
 
-## 1. 기능 설계 [a]
+## 1-1. 기능 설계 [a]
 
 <details>
 <summary>
@@ -72,7 +72,7 @@ https://www.youtube.com/watch?v=bOAV4GeGYHg
 
 [인터페이스 설계](./Interface.md)
 
-## 2. 기능 설계 [b]
+## 1-2. 기능 설계 [b]
 
 <details>
 <summary>
@@ -89,7 +89,7 @@ https://www.youtube.com/watch?v=bOAV4GeGYHg
 
 [인터페이스 설계](./Interface.md)
 
-## 3. 기능 설계 [c]
+## 1-3. 기능 설계 [c]
 
 <details>
 <summary>
@@ -105,3 +105,24 @@ https://www.youtube.com/watch?v=kuqPBjZgsus&t=21s
 이어서 설계할 것들을 미리 적어본다.
 
 [인터페이스 설계](./Interface.md)
+
+
+## 2-1 ERD / DDL / DCL 작성
+
+<details>
+<summary>
+유튜브 링크
+</summary>
+
+https://www.youtube.com/watch?v=Nd3i_8f8RTw&list=PLbq5jHjpmq7q-Td2jOXtpf7SD5c53RqXh&index=5&t=5s
+
+</details>
+
+**데이터베이스 테이블 구현**
+
+시작하기전 extension 추가할 것이 있다.
+
+- ERD Editor
+
+설치 후 workspace에 새로운 파일을 만들어준다. 이름은 `board.vuerd.json` 이다.(데이터 베이스 명.vuerd.json 형식이다.)
+
