@@ -46,7 +46,7 @@ https://code.visualstudio.com/docs/java/java-tutorial 에서 운영체제에 맞
 설치 후, 추가적인 Extension을 설치한다.
 - mysql(publisher:"Weijan Chen")
 
-왼쪽에 DB모양을 클릭하여 MySQL 설치시 사용했던 비밀번호를 입력하여 새 connection을 만들어준다.
+왼쪽에 DB모양을 클릭하여 MySQL 설치시 사용했던 비밀번호를 입력하여 새 connection을 만들어준다.(0000)
 
 **Node.js**
 
@@ -126,3 +126,16 @@ https://www.youtube.com/watch?v=Nd3i_8f8RTw&list=PLbq5jHjpmq7q-Td2jOXtpf7SD5c53R
 
 설치 후 workspace에 새로운 파일을 만들어준다. 이름은 `board.vuerd.json` 이다.(데이터 베이스 명.vuerd.json 형식이다.)
 
+다이어그램을 다 그린 후 위에 데이터베이스 모양의 SQL DDL 아이콘을 클릭하면 쿼리문으로 만들어진 것을 뽑아낼 수 있다.
+
+여기서 몇가지 항목들을 수작업으로 조정해줄 것이다.
+
+1. "board"와 "image"테이블에 있는 AUTO_INCREMENT 항목 앞에 DEFAULT 라고 적혀있는 것을 지워줄 것이다.
+2. "user" 테이블에 "nickname", "tel_number"에 UNIQUE를 추가해줄 것이다. NOT NULL과 COMMENT 사이에 추가해주면 된다.
+
+그 다음 왼쪽에 익스텐션으로 추가한 DB아이콘을 클릭하면 MySQL이 왼쪽에 표시된다.
+
+여기서 + 버튼을 눌러서 DB를 추가해준다. 생성된 SQL파일에 board라는 db를 만들겠다는 코드를 적어 실행한다.
+```
+CREATE DATABASE board;
+```
