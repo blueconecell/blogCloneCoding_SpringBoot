@@ -128,14 +128,35 @@ https://www.youtube.com/watch?v=Nd3i_8f8RTw&list=PLbq5jHjpmq7q-Td2jOXtpf7SD5c53R
 
 다이어그램을 다 그린 후 위에 데이터베이스 모양의 SQL DDL 아이콘을 클릭하면 쿼리문으로 만들어진 것을 뽑아낼 수 있다.
 
-여기서 몇가지 항목들을 수작업으로 조정해줄 것이다.
-
-1. "board"와 "image"테이블에 있는 AUTO_INCREMENT 항목 앞에 DEFAULT 라고 적혀있는 것을 지워줄 것이다.
-2. "user" 테이블에 "nickname", "tel_number"에 UNIQUE를 추가해줄 것이다. NOT NULL과 COMMENT 사이에 추가해주면 된다.
 
 그 다음 왼쪽에 익스텐션으로 추가한 DB아이콘을 클릭하면 MySQL이 왼쪽에 표시된다.
 
-여기서 + 버튼을 눌러서 DB를 추가해준다. 생성된 SQL파일에 board라는 db를 만들겠다는 코드를 적어 실행한다.
+여기서 + 버튼을 눌러서 DB를 추가해준다. 생성된 SQL파일에 board라는 db를 만들겠다는 코드를 적는다.
+
 ```
 CREATE DATABASE board;
+```
+
+만들어진 board 데이터베이스를 열어보면 첫번째에 'Query'가 있다. 여기에 새로운 'DDL.sql'파일을 만들어 ERD로 만든 쿼리문을 복사해준다.
+
+실행하기 전에 몇가지 항목들을 수작업으로 조정해줄 것이다.
+
+1. "board"와 "image"테이블에 있는 AUTO_INCREMENT 항목 앞에 DEFAULT 라고 적혀있는 것을 지워줄 것이다.
+2. "user" 테이블에 "nickname", "tel_number"에 UNIQUE를 추가해줄 것이다. NOT NULL과 COMMENT 사이에 추가해주면 된다.
+3. "favorite", "comment"테이블에  "board_number"에서 `DEFAULT AUTO_INCREMENT`를 지워준다.
+4. "image"테이블에 "board_number"에서 `AUTO_INCREMENT`를 지워준다.
+5. "search_log"테이블에 "sequence"에서 NOT_NULL과 COMMENT 사이에 `AUTO_INCREMENT`를 넣어준다.
+
+조회수와 댓글 수는 쿼리를 통해서 찾아낼 수 있는데 그렇게 하다보면 연산시간이 길어지고 쿼리문이 복잡해지기 때문에 중복을 어느정도 허용하여 만들어주었다.
+
+그런다음 'DDL.sql'에 개발자 유저를 생성해 준다. 
+
+```
+CREATE USER 'developer'@'*' IDENTIFIED BY 'P!ssw0rd';
+```
+그다음 DLC.sql을 하나더 만든 후 아래 코드를 적는다.
+```
+GRANT SELECT, UPDATE, DELETE, INSERT
+ON board.*
+TO 'developer'@'*';
 ```
