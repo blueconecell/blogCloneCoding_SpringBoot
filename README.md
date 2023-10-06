@@ -133,7 +133,7 @@ https://www.youtube.com/watch?v=Nd3i_8f8RTw&list=PLbq5jHjpmq7q-Td2jOXtpf7SD5c53R
 
 여기서 + 버튼을 눌러서 DB를 추가해준다. 생성된 SQL파일에 board라는 db를 만들겠다는 코드를 적는다.
 
-```
+```SQL
 CREATE DATABASE board;
 ```
 
@@ -151,12 +151,338 @@ CREATE DATABASE board;
 
 그런다음 'DDL.sql'에 개발자 유저를 생성해 준다. 
 
-```
+```SQL
 CREATE USER 'developer'@'*' IDENTIFIED BY 'P!ssw0rd';
 ```
 그다음 DLC.sql을 하나더 만든 후 아래 코드를 적는다.
-```
+```SQL
 GRANT SELECT, UPDATE, DELETE, INSERT
 ON board.*
 TO 'developer'@'*';
 ```
+## 2-1 DML 작성 [a]
+
+<details>
+<summary>
+유튜브 링크
+</summary>
+
+https://www.youtube.com/watch?v=SrxPcd56pYA&list=PLbq5jHjpmq7q-Td2jOXtpf7SD5c53RqXh&index=6
+
+</details>
+
+**회원가입 작성**
+
+새롭게 'DML.sql'을 만들어준다.
+
+comment 댓글 테이블에서 'comment_number'를 눌러주면 sql파일이 나오는데 NOT NULL과 COMMENT 사이에 AUTO_INCERMENT를 넣어줘야한다.
+
+```SQL
+-- Active: 1696468643810@@127.0.0.1@3306@board
+-- 회원가입
+INSERT INTO
+user VALUES
+('email@email.com', 'P!ssw0rd','nickname', '01012345678', '부산광역시 부산진구', '롯대백화점', null);
+
+-- 로그인
+SELECT * FROM user WHERE email = 'email@email.com';
+
+-- 게시물 작성
+INSERT INTO
+board (title, content, write_datetime, favorite_count, comment_count, view_count, write_email)
+VALUES('제목입니다', '내용입니다', '2023-10-06 00:33',0,0,0, 'email@email.com');
+
+-- 게시물 이미지 설정
+INSERT INTO image VALUES(1,'url');
+
+-- 댓글 작성
+INSERT INTO
+comment (content, writer_datetime, user_email, board_number)
+VALUES('반갑습니다.','2023-10-06 00:33', 'email@email.com',1);
+
+-- 댓글 작성 추가(select할때 편하게 하기 위해 중복을 허용해 놓음)
+UPDATE board SET comment_count = comment_count + 1 WHERE board_number = 1;
+
+
+-- 좋아요
+INSERT INTO
+favorite VALUES ('email@email.com', 1);
+
+UPDATE board SET favorite_count = favorite_count + 1 WHERE board_number = 1;
+
+DELETE FROM favorite WHERE user_email = 'email@email.com' AND board_number=1;
+
+UPDATE board SET favorite_count = favorite_count - 1 WHERE board_number = 1;
+
+-- 게시물 수정
+UPDATE board SET title = '수정 제목입니다.', content = '수정 내용입니다.' WHERE board_number = 1;
+
+DELETE FROM image WHERE board_number = 1;
+
+--(이미지를 다시 추가해줘야한다.)
+INSERT INTO image VALUES(1,'url');
+
+-- 게시물 삭제(순서에 맞게 지워줘야 한다.)
+DELETE FROM comment WHERE board_number =1;
+DELETE FROM favorite WHERE board_number =1;
+DELETE FROM image WHERE board_number = 1;
+DELETE FROM board WHERE board_number =1;  
+```
+이 내용을 적고 실행한다.
+
+## 2-2 DML 작성 [b]
+
+<details>
+<summary>
+유튜브 링크
+</summary>
+
+https://www.youtube.com/watch?v=SrxPcd56pYA&list=PLbq5jHjpmq7q-Td2jOXtpf7SD5c53RqXh&index=7
+
+</details>
+
+**게시물 불러오기**
+
+- `LIMIT` 문법
+`LIMIT 5,5`
+을 쓰게되면 항목 5번부터 5개까지만 보겠다는 이야기이다.
+
+- '최신게시물 불러오기'부터 '특정유저 게시물 불러오기'까지 코드를 보면 처음부터 아래 `ON B.board_number = I.board_number` 부분까지 모두 동일하다. 중복을 제거하기 위해서 DDL.sql 에 뷰를 하나 만들어줄 것이다.
+```SQL
+-- 최신 게시물 리스트 불러오기
+-- (게시물 상세 말고 리스트를 불러와야한다.)
+--(모든 리스트 불러오는 곳이 똑같다는 것을 염두해둬야함)
+SELECT
+    B.board_number AS board_number,
+    B.title AS title,
+    B.content AS content,
+    I.image AS title_image,
+    B.favorite_count AS favorite_count,
+    B.comment_count AS comment_count,
+    B.view_count AS view_count,
+    B.write_datetime AS write_datetime,
+    U.nickname AS writer_nickname,
+    U.profile_image AS writer_profile_image
+FROM board AS B
+INNER JOIN user AS U
+ON B.writer_email = U.email
+LEFT JOIN (SELECT board_number, ANY_VALUE(image) AS image FROM image GROUP BY board_number) AS I
+ON B.board_number = I.board_number
+ORDER BY write_datetime DESC
+LIMIT 5,5;
+    
+-- 검색어 리스트
+SELECT
+    B.board_number AS board_number,
+    B.title AS title,
+    B.content AS content,
+    I.image AS title_image,
+    B.favorite_count AS favorite_count,
+    B.comment_count AS comment_count,
+    B.view_count AS view_count,
+    B.write_datetime AS write_datetime,
+    U.nickname AS writer_nickname,
+    U.profile_image AS writer_profile_image
+FROM board AS B
+INNER JOIN user AS U
+ON B.writer_email = U.email
+LEFT JOIN (SELECT board_number, ANY_VALUE(image) AS image FROM image GROUP BY board_number) AS I
+ON B.board_number = I.board_number
+WHERE title LIKE '%수정%' OR content LIKE '%수정%'
+ORDER BY write_datetime DESC
+LIMIT 0,5;
+
+-- 주간 상위 3
+SELECT
+    B.board_number AS board_number,
+    B.title AS title,
+    B.content AS content,
+    I.image AS title_image,
+    B.favorite_count AS favorite_count,
+    B.comment_count AS comment_count,
+    B.view_count AS view_count,
+    B.write_datetime AS write_datetime,
+    U.nickname AS writer_nickname,
+    U.profile_image AS writer_profile_image
+FROM board AS B
+INNER JOIN user AS U
+ON B.writer_email = U.email
+LEFT JOIN (SELECT board_number, ANY_VALUE(image) AS image FROM image GROUP BY board_number) AS I
+ON B.board_number = I.board_number
+WHERE B.write_datetime BETWEEN '2023-10-01 00:00' AND '2023-10-06 15:36'
+ORDER BY favorite_count DESC, comment_count DESC, view_count DESC, write_datetime DESC
+LIMIT 3;
+
+-- 특정유저 게시물 불러오기
+SELECT
+    B.board_number AS board_number,
+    B.title AS title,
+    B.content AS content,
+    I.image AS title_image,
+    B.favorite_count AS favorite_count,
+    B.comment_count AS comment_count,
+    B.view_count AS view_count,
+    B.write_datetime AS write_datetime,
+    U.nickname AS writer_nickname,
+    U.profile_image AS writer_profile_image
+FROM board AS B
+INNER JOIN user AS U
+ON B.writer_email = U.email
+LEFT JOIN (SELECT board_number, ANY_VALUE(image) AS image FROM image GROUP BY board_number) AS I
+ON B.board_number = I.board_number
+WHERE B.writer_email = 'email@email.com'
+ORDER BY write_datetime DESC;
+```
+
+**완성된 DML**
+```SQL
+-- Active: 1696468643810@@127.0.0.1@3306@board
+-- 회원가입
+INSERT INTO
+user VALUES
+('email@email.com', 'P!ssw0rd','nickname', '01012345678', '부산광역시 부산진구', '롯대백화점', null);
+
+-- 로그인
+SELECT * FROM user WHERE email = 'email@email.com';
+
+-- 게시물 작성
+INSERT INTO
+board (title, content, write_datetime, favorite_count, comment_count, view_count, write_email)
+VALUES('제목입니다', '내용입니다', '2023-10-06 00:33',0,0,0, 'email@email.com');
+
+-- 게시물 이미지 설정
+INSERT INTO image VALUES(1,'url');
+
+-- 댓글 작성
+INSERT INTO
+comment (content, writer_datetime, user_email, board_number)
+VALUES('반갑습니다.','2023-10-06 00:33', 'email@email.com',1);
+
+-- 댓글 작성 추가(select할때 편하게 하기 위해 중복을 허용해 놓음)
+UPDATE board SET comment_count = comment_count + 1 WHERE board_number = 1;
+
+
+-- 좋아요
+INSERT INTO
+favorite VALUES ('email@email.com', 1);
+
+UPDATE board SET favorite_count = favorite_count + 1 WHERE board_number = 1;
+
+DELETE FROM favorite WHERE user_email = 'email@email.com' AND board_number=1;
+
+UPDATE board SET favorite_count = favorite_count - 1 WHERE board_number = 1;
+
+-- 게시물 수정
+UPDATE board SET title = '수정 제목입니다.', content = '수정 내용입니다.' WHERE board_number = 1;
+
+DELETE FROM image WHERE board_number = 1;
+
+--(이미지를 다시 추가해줘야한다.)
+INSERT INTO image VALUES(1,'url');
+
+-- 게시물 삭제(순서에 맞게 지워줘야 한다.)
+DELETE FROM comment WHERE board_number =1;
+DELETE FROM favorite WHERE board_number =1;
+DELETE FROM image WHERE board_number = 1;
+DELETE FROM board WHERE board_number =1; 
+
+-- 상세 게시물 불러오기
+
+SELECT
+    B.board_number AS board_number,
+    B.title AS title,
+    B.content AS content,
+    B.write_datetime AS write_datetime,
+    B.writer_email AS write_email,
+    U.nickname AS nickname,
+    U.profile_image AS profile_image
+FROM board AS B
+INNER JOIN user AS U
+ON B.writer_email = U.email
+WHERE board_number = 1;
+
+SELECT image
+FROM image
+WHERE board_number = 1;
+
+-- 게시물 불러오기 전에 댓글, 좋아요 리스트를 가져와야함
+-- 좋아요 리스트 가져오기
+SELECT 
+    U.email AS email,
+    U.nickname AS nickname,
+    U.profile_image
+FROM favorite AS F
+INNER JOIN user AS U
+ON F.user_email = U.email
+WHERE F.board_number = 1;
+
+-- 댓글리스트 가져오기
+SELECT
+    U.nickname AS nickname,
+    U.profile_image AS profile_image,
+    C.writer_datetime AS writer_datetime,
+    C.content AS content
+FROM comment AS C
+INNER JOIN user AS U
+ON C.user_email = U.email
+WHERE C.board_number = 1
+ORDER BY writer_datetime DESC;
+
+
+-- 최신 게시물 리스트 불러오기
+-- (게시물 상세 말고 리스트를 불러와야한다.)
+--(모든 리스트 불러오는 곳이 똑같다는 것을 염두해둬야함)
+SELECT *
+FROM board_list_view
+ORDER BY write_datetime DESC
+LIMIT 5,5;
+    
+-- 검색어 리스트
+SELECT *
+FROM board_list_view
+WHERE title LIKE '%수정%' OR content LIKE '%수정%'
+ORDER BY write_datetime DESC
+LIMIT 0,5;
+
+-- 주간 상위 3
+SELECT *
+FROM board_list_view
+WHERE write_datetime BETWEEN '2023-10-01 00:00' AND '2023-10-06 15:36'
+ORDER BY favorite_count DESC, comment_count DESC, view_count DESC, write_datetime DESC
+LIMIT 3;
+
+-- 특정유저 게시물 불러오기
+SELECT *
+FROM board_list_view
+WHERE writer_email = 'email@email.com'
+ORDER BY write_datetime DESC;
+
+-- 인기 검색어 리스트
+SELECT search_word, count(search_word) AS count
+FROM search_log
+WHERE relation IS FALSE
+GROUP BY search_word
+ORDER BY count DESC
+LIMIT 15;
+
+-- 관련 검색어 리스트
+SELECT relation_word, count(relation_word) AS count
+FROM search_log
+WHERE search_word = '검색어'
+GROUP BY relation_word
+ORDER BY count DESC
+LIMIT 15;
+
+-- 유저 정보 불러오기
+SELECT * 
+FROM user
+WHERE email = 'email@email.com';
+
+-- 닉네임 수정
+UPDATE user SET nickname = '수정 닉네임' WHERE email = 'email@email.com';
+
+-- 프로필 이미지 수정
+UPDATE user SET profile_image= 'url2' WHERE email = 'email@email.com';
+```
+- mysql 현황
+![Alt text](img/1.png)
