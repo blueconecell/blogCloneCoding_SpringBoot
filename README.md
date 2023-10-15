@@ -486,3 +486,4 @@ UPDATE user SET profile_image= 'url2' WHERE email = 'email@email.com';
 ```
 - mysql 현황
 ![Alt text](img/1.png)
+
