@@ -15,7 +15,7 @@ interface Props{
 
 const InputBox = forwardRef<HTMLInputElement, Props>((props: Props, ref)=>{
 
-    // state
+    // state //
     const {label,type,error,placeholder,value,icon,message}=props;
     const {setValue,onButtonClick,onKeyDown} =props;
 
@@ -30,7 +30,7 @@ const InputBox = forwardRef<HTMLInputElement, Props>((props: Props, ref)=>{
         onKeyDown(event);
     }
 
-    // render
+    // render //
     return (
         <div className="inputbox">
             <div className="inputbox-label">{label}</div>
