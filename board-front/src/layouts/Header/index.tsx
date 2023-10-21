@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { AUTH_PATH, MAIN_PATH, SEARCH_PATH, USER_PATH } from 'constant';
 import { useCookies } from 'react-cookie';
 import useLoginUserStore from 'stores/login-user.store';
+import { useBoardStore } from 'stores';
 
 // component: 헤더 레이아웃
 export default function Header() {
@@ -128,6 +129,25 @@ export default function Header() {
     return(
       <div className='black-button' onClick={onSignInButtonClickHandler}>{'Login'}</div>
     )
+  }
+  // component: 업로드 버튼 컴포넌트
+  const UploadButton = () =>{
+
+    // state: 게시물 상태
+    const {title, content, boardImageFileList, resetBoard } = useBoardStore();
+    
+    // event handler: 업로드 버튼 클릭 이벤트 처리 함수
+    const onUploadButtonClickHandler = () => {
+
+    }
+
+    // render: 업로드 버튼 컴포넌트 렌더링
+    if (title && content)
+    return <div className='black-button' onClick={onUploadButtonClickHandler}>{'Upload'}</div>
+    // render: 업로드 불가 버튼 컴포넌트 렌더링
+
+    return <div className='disable-button'>{'disable Button'}</div>
+
 
   }
 
@@ -149,6 +169,7 @@ export default function Header() {
       <div className='header-right-box'>
         <SearchButton/>
         <MyPageButton/>
+        <UploadButton/>
       </div>
     </div>
   </div>
