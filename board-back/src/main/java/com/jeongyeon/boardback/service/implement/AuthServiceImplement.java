@@ -36,15 +36,15 @@ public class AuthServiceImplement implements AuthService{
 
             String email = dto.getEmail();
             // 만들어둔 쿼리메소드로 이메일이 중복되는지 확인하는 작업
-            boolean existedEmail = userRepository.existByEmail(email);
+            boolean existedEmail = userRepository.existsByEmail(email);
             if (existedEmail) return SignUpResponseDto.duplicateEmail();
 
             String nickname = dto.getNickname();
-            boolean existedNickname = userRepository.existByNickname(nickname);
+            boolean existedNickname = userRepository.existsByNickname(nickname);
             if (existedNickname) return SignUpResponseDto.duplicatedNickname();
 
             String telNumber = dto.getTelNumber();
-            boolean existedTelNumber = userRepository.existByTelNumber(telNumber);
+            boolean existedTelNumber = userRepository.existsByTelNumber(telNumber);
             if (existedTelNumber) return SignUpResponseDto.duplicatedTelNumber();
 
             // 비밀번호 보안작업

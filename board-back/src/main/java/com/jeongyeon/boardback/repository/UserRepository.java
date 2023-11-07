@@ -14,7 +14,7 @@ public interface UserRepository extends JpaRepository<UserEntity, String>{
     // 유저 테이블에서 이 email 값이 하나라도 존재한다면 true를 반환한다.
     // SQL문을 알아서 만들어서 알아서 실행해준다.
     // existBy 이부분 오타주의
-    boolean existByEmail(String email);
-    boolean existByNickname(String nickname);
-    boolean existByTelNumber(String telNumber);
+    boolean existsByEmail(String email);
+    boolean existsByNickname(String nickname);
+    boolean existsByTelNumber(String telNumber);
 }
