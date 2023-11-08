@@ -1,4 +1,4 @@
-package com.jeongyeon.boardback.dto.request.auth;
+package com.jeongyeon.boardback.dto.response.auth;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

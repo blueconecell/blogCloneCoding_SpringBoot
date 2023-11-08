@@ -5,10 +5,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.jeongyeon.boardback.dto.request.auth.SignInRequestDto;
 import com.jeongyeon.boardback.dto.request.auth.SignUpRequestDto;
-import com.jeongyeon.boardback.dto.request.auth.SignUpResponseDto;
 import com.jeongyeon.boardback.dto.response.ResponseDto;
+import com.jeongyeon.boardback.dto.response.auth.SignInResponseDto;
+import com.jeongyeon.boardback.dto.response.auth.SignUpResponseDto;
 import com.jeongyeon.boardback.entity.UserEntity;
+import com.jeongyeon.boardback.provider.JwtProvider;
 import com.jeongyeon.boardback.repository.UserRepository;
 import com.jeongyeon.boardback.service.AuthService;
 
@@ -21,6 +24,7 @@ public class AuthServiceImplement implements AuthService{
     // 원래 아래 코드에서 final을 빼고 만들면 생성자들을 만들어줘야하는데
     // @RequiredArgsConstructor 어노테이션을 사용하고 final을 적용해주면 필요한 생성자를 알아서 만들어준다.
     private final UserRepository userRepository; 
+    private final JwtProvider jwtProvider;
 
     // 이번엔 final 안쓰고 직접 의존성 주입해줄 것이다.
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -61,6 +65,32 @@ public class AuthServiceImplement implements AuthService{
             return ResponseDto.databaseError();
         }
         return SignUpResponseDto.success();
+    }
+
+    @Override
+    public ResponseEntity<? super SignInResponseDto> signIn(SignInRequestDto dto) {
+
+        String token = null;        
+
+        try{
+
+            String email = dto.getEmail();
+            UserEntity userEntity = userRepository.findByEmail(email);
+            if(userEntity == null) return SignInResponseDto.signInFail();
+
+            String password = dto.getPassword();
+            String encodedPassword = userEntity.getPassword();
+
+            boolean isMatched = passwordEncoder.matches(password, encodedPassword);
+            if(!isMatched) return SignInResponseDto.signInFail();
+
+            token = jwtProvider.create(email);
+
+        }catch(Exception exception){
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+    return SignInResponseDto.success(token);
     }
     
 }

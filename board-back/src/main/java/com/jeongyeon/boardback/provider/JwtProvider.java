@@ -23,7 +23,7 @@ public class JwtProvider {
         Date expireDate = Date.from(Instant.now().plus(1,ChronoUnit.HOURS));
         //jwt생성
         String jwt = Jwts.builder()
-            .signWith(SignatureAlgorithm.ES256,secretKey)
+            .signWith(SignatureAlgorithm.HS256,secretKey)
             .setSubject(email).setIssuedAt(new Date()).setExpiration(expireDate)
             .compact();
 
