@@ -35,7 +35,7 @@ const InputBox = forwardRef<HTMLInputElement, Props>((props: Props, ref)=>{
         <div className="inputbox">
             <div className="inputbox-label">{label}</div>
             <div className={error ? "inputbox-container-error" : "inputbox-container" }>
-                <input ref={ref} type={type} className="input" placeholder={placeholder} value={value} onKeyDown={onKeyDownHandler}/> 
+                <input ref={ref} type={type} className="input" placeholder={placeholder} value={value} onChange={onChangeHandler} onKeyDown={onKeyDownHandler}/> 
                 {onButtonClick !== undefined && 
                 <div className="icon-button" onClick={onButtonClick}>
                     {icon !== undefined && <div className={`icon ${icon}`}></div>}
