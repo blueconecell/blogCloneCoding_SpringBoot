@@ -1,8 +1,8 @@
 #auth-wrapper{
     padding: 100px 0px 150px;
     min-width: 1440px;
-    height: calc(100vh - 68px - 100px - 150px);
-    min-height: 960px;
+    height: calc(100vh - 68px - 100px - 150px - 50px);
+    min-height: 760px;
 
     display: flex;
     justify-content: center;
@@ -93,6 +93,12 @@
 
 .auth-card-title{
     color: rgba(0, 0, 0, 1);
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 140%;
+}
+.auth-card-page{
+    color: rgba(0, 0, 0, 0.7);
     font-size: 24px;
     font-weight: 500;
     line-height: 140%;
