@@ -2,7 +2,7 @@
     padding: 100px 0px 150px;
     min-width: 1440px;
     height: calc(100vh - 68px - 100px - 150px - 50px);
-    min-height: 760px;
+    min-height: 860px;
 
     display: flex;
     justify-content: center;
@@ -18,7 +18,7 @@
     width: 1200px;
     height: 100%;
 
-    display: flex;
+    display: grid;
     grid-template-columns: 7fr 5fr;
     column-gap: 78px;
 }
@@ -134,4 +134,30 @@
     color: rgba(0, 0, 0, 1);
     cursor: pointer;
     font-weight: 600;
+}
+.auth-consent-box{
+    display: flex;
+    align-items: center;
+}
+.auth-check-box{
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+}
+.auth-consent-title{
+    color: rgba(0, 0, 0, 0.7);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 140%;
+}
+.auth-consent-title-error{
+    color: rgba(255, 0, 0, 0.7);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 140%;
+}
+.auth-consent-link{
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 140%;
 }
