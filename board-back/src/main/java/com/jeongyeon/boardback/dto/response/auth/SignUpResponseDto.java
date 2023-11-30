@@ -28,7 +28,7 @@ public class SignUpResponseDto extends ResponseDto{
         ResponseDto result = new ResponseDto(ResponseCode.DUPLICATED_EMAIL, ResponseMessage.DUPLICATED_EMAIL);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
     }
-    
+
     // 2. 중복된 닉네임의 경우
     public static ResponseEntity<ResponseDto> duplicatedNickname(){
         ResponseDto result = new ResponseDto(ResponseCode.DUPLICATED_NICKNAME, ResponseMessage.DUPLICATED_NICKNAME);

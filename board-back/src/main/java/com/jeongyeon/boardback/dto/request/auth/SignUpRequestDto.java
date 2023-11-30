@@ -35,5 +35,4 @@ public class SignUpRequestDto {
 
     @NotNull @AssertTrue
     private Boolean agreedPersonal;
-
 }
