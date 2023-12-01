@@ -165,7 +165,7 @@ export default function Authentication(){
 
 
         // state: 페이지 번호 상태
-        const [page, setPage] = useState<1 | 2>(1);
+        const [page, setPage] = useState<1 | 2>(2);
         // state: 이메일 상태
         const [email, setEmail] = useState<string>('');
         // state: 패스워드 상태
@@ -255,7 +255,6 @@ export default function Authentication(){
             setEmail(value);
             setEmailError(false);
             setEmailErrorMessage('');
-            
         }
         // event handler: 패스워드 변경 이벤트 처리
         const onPasswordChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -301,7 +300,6 @@ export default function Authentication(){
         const onAgreedPersonalClickHandler = () =>{
             setAgreedPersonal(!agreedPersonal);
             setAgreedPersonalError(false);
-
         }
 
         //event handler: 패스워드 버튼 클릭 이벤트 처리 
@@ -343,22 +341,13 @@ export default function Authentication(){
             const isCheckedPassword = password.trim().length >=8;
             if (!isCheckedPassword){
                 setPasswordError(true);
-                setPasswordErrorMessage('1 비밀번호는 8자 이상 입력11111일해주세요');
+                setPasswordErrorMessage('비밀번호는 8자 이상 입력해주세요');
             }
             const isEqualPassword = password === passwordCheck;
             if(!isEqualPassword){
                 setPasswordCheckError(true);
                 setPasswordCheckErrorMessage('비밀번호가 일치하지 않습니다.');
             }
-            
-            console.log("isEmailPattern >",isEmailPattern);
-            console.log("emailErrorMessage :",emailErrorMessage);
-            
-              
-            console.log("isCheckedPassword >",isCheckedPassword);
-            console.log("passwordErrorMessage :",passwordErrorMessage);
-            console.log("isEqualPassword >",isEqualPassword);
-            console.log("passwordCheckErrorMessage :",passwordCheckErrorMessage);
             
             if (!isEmailPattern || !isCheckedPassword || !isEqualPassword) return;
             setPage(2);
@@ -379,7 +368,7 @@ export default function Authentication(){
             const isCheckedPassword = password.trim().length >=8;
             if (!isCheckedPassword){
                 setPasswordError(true);
-                setPasswordErrorMessage('비밀번호는 8자 이상 입력22222이해주세요');
+                setPasswordErrorMessage('비밀번호는 8자 이상 입력해주세요');
             }
             const isEqualPassword = password === passwordCheck;
             if(!isEqualPassword){
@@ -513,7 +502,7 @@ export default function Authentication(){
                         <>
                         <div className='auth-consent-box'>
                             <div className='auth-check-box' onClick={onAgreedPersonalClickHandler}>
-                                <div className={`icon ${agreedPersonal ? 'check-ring-fill-icon' : 'check-ring-light-icon'}`}></div>
+                                <div className={`icon ${agreedPersonal ? 'check-round-fill-icon' : 'check-ring-light-icon'}`}></div>
                             </div>
                             <div className={`icon ${isAgreedPersonalError ? 'auth-consent-title-error' : 'auth-consent-title'}`}>{'개인정보동의'}</div>
                             <div className='auth-consent-link'>{'더보기 >'}</div>

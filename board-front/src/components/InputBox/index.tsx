@@ -1,5 +1,7 @@
 import { ChangeEvent, forwardRef,KeyboardEvent } from "react";
 import './style.css'
+
+// interface: Input box 컴포넌트 Propperties
 interface Props{
     label:string;
     type:'text' | 'password';
@@ -16,8 +18,8 @@ interface Props{
 const InputBox = forwardRef<HTMLInputElement, Props>((props: Props, ref)=>{
 
     // state //
-    const {label,type,error,placeholder,value,icon,message}=props;
-    const {onChange,onButtonClick,onKeyDown} =props;
+    const {label,type,error,placeholder,value,icon,message}= props;
+    const {onChange,onButtonClick,onKeyDown} = props;
 
     // event handler : input 키 이벤트 처리 함수 //
 
@@ -36,12 +38,10 @@ const InputBox = forwardRef<HTMLInputElement, Props>((props: Props, ref)=>{
                 {onButtonClick !== undefined && 
                 <div className="icon-button" onClick={onButtonClick}>
                     {icon !== undefined && <div className={`icon ${icon}`}></div>}
-                    
                 </div>
                 }
-
             </div>
-            {message !== undefined && <div className="inputbox-message">{'비밀번호는 8자 이상 입력해주세요.'}</div>}
+            {message !== undefined && <div className="inputbox-message">{message}</div>}
             
         </div>
     )
