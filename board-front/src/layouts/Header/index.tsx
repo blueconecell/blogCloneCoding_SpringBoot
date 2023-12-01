@@ -124,6 +124,7 @@ export default function Header() {
     // event handler: 마이페이지 버튼 클릭 이벤트 처리 함수
     const onSignOutButtonClickHandler = () => {
       resetLoginUser();
+      setCookie('accessToken', '', {path: MAIN_PATH(), expires: new Date()});
       navigate(MAIN_PATH());
     }
     
@@ -187,6 +188,11 @@ export default function Header() {
     setUserPage(isUserPage);
   })
 
+  // effect: login user가 변경될 때마다 실행되는 함수
+  useEffect(() => {
+    setLogin(loginUser !== null);
+    console.log('로그인유저가 변경될 때마다 실행되는 함수 !')
+  }, [loginUser])
 
 
 
