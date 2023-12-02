@@ -56,7 +56,7 @@ export default function Authentication(){
             // 현재시간은 밀리세컨드이기 때문에 1000곱하기 -> 만료시간 계산해주기
             const expires = new Date(now + expirationTime*1000);
 
-            setCookie('accesToken', token, {expires, path:MAIN_PATH()});
+            setCookie('accessToken', token, {expires, path:MAIN_PATH()});
             navigator(MAIN_PATH());
 
         }
@@ -354,7 +354,6 @@ export default function Authentication(){
         }
         // effect: 페이지가 변경될 때마다 실행될 함수
         useEffect(() => {
-            console.log("emailErrorMessage in useEffect:", emailErrorMessage);
           }, [emailErrorMessage]);
         // event handler: 회원가입 버튼 클릭 이벤트 처리
         const onSignUpButtonClickHandler = () =>{

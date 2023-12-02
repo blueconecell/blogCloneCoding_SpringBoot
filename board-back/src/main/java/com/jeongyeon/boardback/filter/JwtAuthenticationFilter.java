@@ -62,13 +62,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         filterChain.doFilter(request, response);
 
-        
     }
 
     private String parseBearerToken(HttpServletRequest request){
         String authorizaion = request.getHeader("Authorization");
 
-        //org.springframework 것을 import
+        // org.springframework 것을 import
         // hastext null이거나 비어있으면 false를 반환하도록함
         boolean hasAuthorization = StringUtils.hasText(authorizaion);
         if (!hasAuthorization) return null;

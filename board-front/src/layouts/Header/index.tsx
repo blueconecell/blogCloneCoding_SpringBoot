@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useRef, useState,KeyboardEvent, useEffect } from 'react'
+import { ChangeEvent, useRef, useState,KeyboardEvent, useEffect } from 'react'
 import './style.css'
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { AUTH_PATH, BOARD_DETAIL_PATH, BOARD_PATH, BOARD_UPDATE_PATH, BOARD_WRITE_PATH, MAIN_PATH, SEARCH_PATH, USER_PATH } from 'constant';
@@ -39,7 +39,7 @@ export default function Header() {
   // function : 네비게이트 함수
   const navigate = useNavigate();
 
-  // event handler: 로코 클릭 이벤트 처리 함수
+  // event handler: 로고 클릭 이벤트 처리 함수
   const onLogoClickHandler = () => {
     navigate(MAIN_PATH());
   }
@@ -110,7 +110,7 @@ export default function Header() {
 
   // component: 로그인 또는 마이페이지 버튼 컴포넌트
   const MyPageButton = () =>{
-
+    
     // state: userEmail path variable 상태
     const {userEmail} = useParams();
 
@@ -118,10 +118,13 @@ export default function Header() {
     const onMyPageButtonClickHandler = () => {
       if (!loginUser) return;
       const{email} = loginUser;
-      navigate(USER_PATH(''));
+      navigate(USER_PATH(email));
+    
+    console.log('마이페이지 버튼 클릭 이벤트 함수 작동 !')
+    console.log('userEmail',userEmail);
+    console.log('loginUser?.email',loginUser?.email);
     }
-
-    // event handler: 마이페이지 버튼 클릭 이벤트 처리 함수
+    // event handler: 로그아웃 버튼 클릭 이벤트 처리 함수
     const onSignOutButtonClickHandler = () => {
       resetLoginUser();
       setCookie('accessToken', '', {path: MAIN_PATH(), expires: new Date()});
@@ -134,7 +137,7 @@ export default function Header() {
     }
 
     // render: 로그아웃 버튼 컴포넌트 렌더링
-    if (isLogin && userEmail === loginUser?.email)
+    if (isLogin  && userEmail === loginUser?.email)
     return(
       <div className='white-button' onClick={onSignOutButtonClickHandler}>{'Logout'}</div>
     )
@@ -143,11 +146,14 @@ export default function Header() {
     if(isLogin)
     return(
       <div className='white-button' onClick={onMyPageButtonClickHandler}>{'MyPage'}</div>
-    )    
+    )
+
     // render: 로그인 버튼 컴포넌트 렌더링
     return(
+      
       <div className='black-button' onClick={onSignInButtonClickHandler}>{'Login'}</div>
     )
+    
   }
   // component: 업로드 버튼 컴포넌트
   const UploadButton = () =>{
@@ -186,12 +192,13 @@ export default function Header() {
     setBoardUpdatePage(isBoardUpdatePage);
     const isUserPage = pathname.startsWith(USER_PATH(''));
     setUserPage(isUserPage);
-  })
+  }, [pathname])
 
   // effect: login user가 변경될 때마다 실행되는 함수
   useEffect(() => {
     setLogin(loginUser !== null);
     console.log('로그인유저가 변경될 때마다 실행되는 함수 !')
+    console.log('loginUser',loginUser)
   }, [loginUser])
 
 

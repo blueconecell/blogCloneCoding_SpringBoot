@@ -22,8 +22,10 @@ export const signInRequest = async (requestBody: SignInRequestDto) => {
     // request body : 무엇을 보낼 것인지
     const result = await axios.post(SIGN_IN_URL(), requestBody)
         .then(response => {
+            
             // post 요청의 결과를 response에 받아서 처리할 것이다.
             const responseBody: SignInResponseDto = response.data;
+            console.log('로그인 성공? : responseBody',responseBody)
             return responseBody;
         })
         .catch(error => {
@@ -37,6 +39,7 @@ export const signUpRequest = async (requestBody: SignUpRequestDto) =>{
     const result = await axios.post(SIGN_UP_URL(), requestBody)
         .then(response => {
             const responseBody: SignUpResponseDto = response.data;
+            console.log('회원가입 성공? : responseBody',responseBody)
             return responseBody;
         })
         .catch(error => {
@@ -54,11 +57,15 @@ export const getSignInUserRequest = async (accessToken: string) =>{
     const result = await axios.get(GET_SIGN_IN_USER_URL(), authorization(accessToken))
     .then(response => {
         const responseBody: GetSignInUserResponseDto = response.data;
+        console.log('유저검증 성공? :',responseBody)
         return responseBody;
     })
     .catch(error => {
         if (!error.response) return null;
         const responseBody: ResponseDto = error.response.data;
+        console.log('유저검증 실패? :',responseBody)
+        console.log('error.response.data :',error.response.data)
+        console.log('authorization(accessToken)',authorization(accessToken))
         return responseBody;
     });
     return result;

@@ -39,15 +39,19 @@ function App() {
     }
     const loginUser: User = { ...(responseBody as GetSignInUserResponseDto) };
     console.log('유저가져오기 성공!')
+    console.log('loginUser :',loginUser)
+    console.log('responseBody :',responseBody)
     setLoginUser(loginUser);
   }
   // effect: accessToken cookie 값이 변경 될 때마다 실행할 함수
   useEffect(() => {
+    console.log('토큰 변경 !')
+    console.log('쿠기확인하기! : cookies.accessToken',cookies.accessToken)
     if (!cookies.accessToken){
       resetLoginUser();
       return;
     }
-    console.log('토큰 변경 !')
+    
     getSignInUserRequest(cookies.accessToken).then(getSignInUserResponse);
   }, [cookies.accessToken]);
 
